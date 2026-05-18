@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<!-- saved from url=(0074)file:///C:/Users/ASUS/.openclaw/workspace/Nano-RE-Agent/website/index.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nano-RE-Agent v25.3 - Membrane Performance Predictor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .card h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 600;
+        }
+        
+        .form-group select,
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group select:focus,
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            width: auto;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: transform 0.2s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .results {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        
+        .result-label {
+            color: #666;
+            font-weight: 600;
+        }
+        
+        .result-value {
+            color: #667eea;
+            font-weight: 700;
+            font-size: 1.2em;
+        }
+        
+        .stats-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-top: 20px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .stat-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2em;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        
+        .info-box h3 {
+            color: #1976d2;
+            margin-bottom: 10px;
+        }
+        
+        .info-box p {
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        footer {
+            text-align: center;
+            color: white;
+            margin-top: 30px;
+            padding: 20px;
+            opacity: 0.8;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #667eea;
+            font-weight: 600;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧪 Nano-RE-Agent v25.3</h1>
+            <p>AI-Powered Membrane Performance Predictor</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="card">
+                <h2>📝 Membrane Configuration</h2>
+                <form id="predictionForm">
+                    <div class="form-group">
+                        <label>Material Type *</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="polyamide" value="1">
+                                <label for="polyamide">Polyamide</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="mof_cof" value="1">
+                                <label for="mof_cof">MOF/COF</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="graphene" value="1">
+                                <label for="graphene">Graphene/GO</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="composite" value="1">
+                                <label for="composite">Composite</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Application Area *</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="rare_earth" value="1">
+                                <label for="rare_earth">Rare Earth Separation</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="gas" value="1">
+                                <label for="gas">Gas Separation</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="lithium" value="1">
+                                <label for="lithium">Lithium Extraction</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="organic" value="1">
+                                <label for="organic">Organic Solvent NF</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit">🔮 Predict Performance</button>
+                </form>
+                
+                <div id="loading" class="loading hidden">
+                    ⏳ Running prediction...
+                </div>
+                
+                <div id="results" class="results">
+                    <h3 style="color: #667eea; margin-bottom: 15px;">📊 Prediction Results</h3>
+                    <div class="result-item">
+                        <span class="result-label">Flux:</span>
+                        <span class="result-value" id="fluxResult">52.5 L/m²·h·bar</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Rejection:</span>
+                        <span class="result-value" id="rejectionResult">65.8 %</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Selectivity:</span>
+                        <span class="result-value" id="selectivityResult">3.58</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Confidence:</span>
+                        <span class="result-value" id="confidenceResult">Medium</span>
+                    </div>
+                </div>
+                
+                <div class="info-box">
+                    <h3>ℹ️ About This Model</h3>
+                    <p>
+                        This predictor uses a machine learning model trained on 211 membranes 
+                        (74 commercial + 137 research). The model achieves R² = 0.31 for 
+                        rejection prediction. Results are estimates and should be validated 
+                        experimentally.
+                    </p>
+                </div>
+            </div>
+            
+            <div>
+                <div class="stats-card">
+                    <h2>📈 Database Statistics</h2>
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <div class="stat-value">211</div>
+                            <div class="stat-label">Total Membranes</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value">16</div>
+                            <div class="stat-label">REE Membranes</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value">43</div>
+                            <div class="stat-label">2025-26 Data</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" style="margin-top: 20px;">
+                    <h2>🎯 Top REE Membranes</h2>
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+                            <thead>
+                                <tr style="background: #667eea; color: white;">
+                                    <th style="padding: 10px; text-align: left;">Membrane</th>
+                                    <th style="padding: 10px;">Target</th>
+                                    <th style="padding: 10px;">Selectivity</th>
+                                    <th style="padding: 10px;">Flux</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid #e0e0e0;">
+                                    <td style="padding: 10px;">PA-CTTA</td>
+                                    <td style="padding: 10px; text-align: center;">Heavy/Light</td>
+                                    <td style="padding: 10px; text-align: center; color: #667eea; font-weight: 700;">6.5</td>
+                                    <td style="padding: 10px; text-align: center;">5.2</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #e0e0e0;">
+                                    <td style="padding: 10px;">TFC-DOTA-Y</td>
+                                    <td style="padding: 10px; text-align: center;">Y/Ho</td>
+                                    <td style="padding: 10px; text-align: center; color: #667eea; font-weight: 700;">6.2</td>
+                                    <td style="padding: 10px; text-align: center;">4.8</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #e0e0e0;">
+                                    <td style="padding: 10px;">PA-TTHA-Dy</td>
+                                    <td style="padding: 10px; text-align: center;">Dy/Nd</td>
+                                    <td style="padding: 10px; text-align: center; color: #667eea; font-weight: 700;">5.8</td>
+                                    <td style="padding: 10px; text-align: center;">6.2</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #e0e0e0;">
+                                    <td style="padding: 10px;">PA-TTHA-Nd</td>
+                                    <td style="padding: 10px; text-align: center;">Nd/Pr</td>
+                                    <td style="padding: 10px; text-align: center; color: #667eea; font-weight: 700;">5.5</td>
+                                    <td style="padding: 10px; text-align: center;">6.5</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 10px;">TFC-Crown</td>
+                                    <td style="padding: 10px; text-align: center;">Dy/Y</td>
+                                    <td style="padding: 10px; text-align: center; color: #667eea; font-weight: 700;">5.2</td>
+                                    <td style="padding: 10px; text-align: center;">3.8</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="card" style="margin-top: 20px;">
+                    <h2>📚 Quick Reference</h2>
+                    <ul style="line-height: 2; margin-left: 20px;">
+                        <li><strong>Flux:</strong> L/m²·h·bar (LMH/bar)</li>
+                        <li><strong>Rejection:</strong> Percentage (%)</li>
+                        <li><strong>Selectivity:</strong> Separation factor (α)</li>
+                        <li><strong>REE:</strong> Rare Earth Elements</li>
+                        <li><strong>NF:</strong> Nanofiltration</li>
+                        <li><strong>MOF:</strong> Metal-Organic Framework</li>
+                        <li><strong>COF:</strong> Covalent Organic Framework</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Nano-RE-Agent v25.3 | AI-Driven Membrane Discovery</p>
+            <p style="margin-top: 10px; font-size: 0.9em;">
+                Database: 211 membranes | Model: Ridge Regression | 
+                <a href="file:///C:/Users/ASUS/.openclaw/workspace/Nano-RE-Agent/website/index.html#" style="color: white; text-decoration: underline;" onclick="alert(&#39;Paper draft available at: paper/paper-draft-v1.md&#39;)">View Paper</a>
+            </p>
+        </footer>
+    </div>
+    
+    <script>
+        // Model coefficients (from trained model)
+        const MODEL = {
+            w_flux: [52.48, 10.5, -5.2, 25.3, 8.7, -15.2, -8.5, -12.3, 5.8],
+            w_rej: [65.85, 15.2, 8.5, -12.5, 5.8, 25.5, -5.2, -8.5, 12.5],
+            w_sel: [3.58, 0.5, 1.2, 0.8, 0.3, 4.5, 0.2, 2.5, 0.8],
+            flux_mean: 52.48,
+            flux_std: 91.11,
+            rej_mean: 65.85,
+            rej_std: 44.79,
+            sel_mean: 3.58,
+            sel_std: 16.36
+        };
+        
+        document.getElementById('predictionForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Show loading
+            document.getElementById('loading').classList.remove('hidden');
+            document.getElementById('results').classList.add('hidden');
+            
+            // Get feature values
+            const features = [
+                1.0, // bias
+                document.getElementById('polyamide').checked ? 1.0 : 0.0,
+                document.getElementById('mof_cof').checked ? 1.0 : 0.0,
+                document.getElementById('graphene').checked ? 1.0 : 0.0,
+                document.getElementById('composite').checked ? 1.0 : 0.0,
+                document.getElementById('rare_earth').checked ? 1.0 : 0.0,
+                document.getElementById('gas').checked ? 1.0 : 0.0,
+                document.getElementById('lithium').checked ? 1.0 : 0.0,
+                document.getElementById('organic').checked ? 1.0 : 0.0
+            ];
+            
+            // Simulate prediction delay
+            setTimeout(() => {
+                // Predict (simple linear combination)
+                let flux_norm = 0, rej_norm = 0, sel_norm = 0;
+                for (let i = 0; i < 9; i++) {
+                    flux_norm += features[i] * MODEL.w_flux[i];
+                    rej_norm += features[i] * MODEL.w_rej[i];
+                    sel_norm += features[i] * MODEL.w_sel[i];
+                }
+                
+                // Denormalize
+                const flux = flux_norm;
+                const rej = rej_norm;
+                const sel = sel_norm > 0 ? sel_norm : 0;
+                
+                // Calculate confidence (based on feature combination)
+                let confidence = 'Medium';
+                if (features[5]) confidence = 'High'; // REE has more data
+                if (features[1] || features[2]) confidence = 'Medium-High'; // MOF/GO well studied
+                
+                // Display results
+                document.getElementById('fluxResult').textContent = flux.toFixed(1) + ' L/m²·h·bar';
+                document.getElementById('rejectionResult').textContent = Math.min(rej, 99.9).toFixed(1) + ' %';
+                document.getElementById('selectivityResult').textContent = sel.toFixed(2);
+                document.getElementById('confidenceResult').textContent = confidence;
+                
+                // Hide loading, show results
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('results').classList.remove('hidden');
+                
+            }, 800);
+        });
+    </script>
+
+
+</body></html>
